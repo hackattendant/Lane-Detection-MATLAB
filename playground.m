@@ -10,13 +10,33 @@ hold off;
 threshed = threshold(img);
 figure();
 imshow(threshed);
-title('Thresholded Image');
+title('Threshold Image');
 hold off;
 
-figure();
-imshow(img); hold on;
-l = plot(740, 444, 'ro'); hold on; l.MarkerFaceColor = l.Color;
-l = plot(600, 444, 'ro'); hold on; l.MarkerFaceColor = l.Color;
-l = plot(1200, 720, 'bo'); hold on; l.MarkerFaceColor = l.Color;
-l = plot(180, 720, 'bo'); hold on; l.MarkerFaceColor = l.Color;
-title('points for perspective transform and masking');
+% mask image
+% region of interest points
+x_points = [740, 600, 180, 1200];
+y_points = [444, 444, 720, 720];
+
+% get m, and n for poly2mask
+dimens = size(threshed);
+m = dimens(1);
+n = dimens(2);
+
+% create binary mask array
+mask = poly2mask(x_points, y_points, m, n);
+% display
+figure()
+imshow(mask);
+title('Binary Mask for ROI');
+hold off;
+
+% Create new image where only pixels are inside of mask
+masked =and(mask, threshed);
+%display
+figure()
+imshow(masked);
+title('Masked Image');
+hold off;
+
+
