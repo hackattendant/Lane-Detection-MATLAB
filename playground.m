@@ -1,13 +1,14 @@
 % read in image
-img = imread('test_images/test1.jpg');
+img = imread('test_images/test3.jpg');
 % display
 figure();
 imshow(img);
 title('Original Image');
 hold off;
 
-% threshold image
-threshed = threshold(img);
+% apply gauss filter
+gauss = imgaussfilt(img);
+threshed = threshold(gauss);
 figure();
 imshow(threshed);
 title('Threshold Image');
