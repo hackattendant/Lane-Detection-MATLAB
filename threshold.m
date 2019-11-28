@@ -12,7 +12,8 @@ function thresholded_img = threshold(img)
     sobel = imgradient(s_channel, 'sobel');
     
     % threshold derivative image
-    thresholded_img = imbinarize(sobel, 0.6);
+%     thresholded_img = imbinarize(sobel, 0.6);
+    thresholded_img = imbinarize(sobel);
 end
 
 
