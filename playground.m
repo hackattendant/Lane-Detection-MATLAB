@@ -1,7 +1,7 @@
 clear;
 clc;
 % v = VideoReader('challenge_video.mp4');
-v = VideoReader('Data/short_clip.mp4');
+v = VideoReader('Data/project_video.mp4');
 outvid = VideoWriter('Data/Output/output.mp4', 'MPEG-4');
 open(outvid);
 label = 0;
