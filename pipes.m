@@ -70,15 +70,13 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     figure('Name','Hough Lines found in image', 'visible', 'off'), imshow(frame), hold on;
     if isempty(lines_left) == false
         xy1 = [lines_left(1).point1; lines_left(1).point2];
-        if first_pass == false
+        if first_pass == false && isempty(old_left) == false
             if isempty(old_left) == false
 %             xy1 = [(lines_left(1).point1 + (3*old_left(1).point1))/4; (lines_left(1).point2 + (3*old_left(1).point2))/4];
               % if non zero average
-              if (any(lines_left(1).point1) == 1 && any(lines_left(1).point2) == 1 && any(old_left(1).point1) && any(old_left(1).point2) == 1)
-                  a = (1/100);
-                  b = (99/100);
-                  xy1 = [a .* lines_left(1).point1 + b .* old_left(1).point1; a .* lines_left(1).point2 + b .* old_left(1).point2];
-              end
+              a = (1/100);
+              b = (99/100);
+              xy1 = [a .* lines_left(1).point1 + b .* old_left(1).point1; a .* lines_left(1).point2 + b .* old_left(1).point2];
             end
         end
         plot(xy1(:,1), xy1(:,2), 'LineWidth', 2, 'Color', 'green');
@@ -91,14 +89,12 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     end
     if isempty(lines_right) == false
         xy2 = [lines_right(1).point1; lines_right(1).point2];
-        if first_pass == false
+        if first_pass == false && isempty(old_right) == false
 %             xy2 = [(lines_right(1).point1 + (3*old_right(1).point1))/4; (lines_right(1).point2 + (3*old_right(1).point2))/4];
             % average if non zero
-            if (any(lines_right(1).point1) == 1 && any(lines_right(1).point2) == 1 && any(old_right(1).point1) && any(old_right(1).point2) == 1)
-                a = (1/100);
-                b = (99/100);
-                xy2 = [a .* lines_right(1).point1 + b .* old_right(1).point1; a .* lines_right(1).point2 + b .* old_right(1).point2];
-            end
+            a = (1/100);
+            b = (99/100);
+            xy2 = [a .* lines_right(1).point1 + b .* old_right(1).point1; a .* lines_right(1).point2 + b .* old_right(1).point2];
         end
         plot(xy2(:,1), xy2(:,2), 'LineWidth', 2, 'Color', 'red');
         plot(xy2(1,1), xy2(1,2), 'x', 'LineWidth', 2, 'Color', 'green');
