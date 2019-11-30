@@ -1,5 +1,5 @@
-v = VideoReader('Data/black_car.mp4');
-out = VideoWriter('~/Desktop/polygon_test.mp4', 'MPEG-4');
+v = VideoReader('Data/project_video.mp4');
+out = VideoWriter('~/Desktop/proj_out.mp4', 'MPEG-4');
 open(out);
 first_pass = true;
 left = [];
