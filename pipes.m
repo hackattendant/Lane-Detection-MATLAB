@@ -1,6 +1,6 @@
 function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_pass)
     close all;
-%     %% Convert from RGB to HSV
+    %% Convert from RGB to HSV
 %     hsv = rgb2hsv(frame);
 %     v_channel = hsv(:, :, 3);
 %     %% Threshold Image
@@ -15,9 +15,11 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     x_points = [710, 600, 90, 1230];
     y_points = [444, 444, 720, 720];
     rl_x = [710, 680, 680, 1200];
-    rl_y = [200, 200, 650, 650];
+%     rl_y = [200, 200, 650, 650];
+    rl_y = [200, 200, 720, 720];
     ll_x = [700, 680, 500, 200];
-    ll_y = [650, 300, 300, 650];
+%     ll_y = [650, 300, 300, 650];
+    ll_y = [720, 300, 300, 720];
     mask = poly2mask(x_points, y_points, m, n);
     rl_mask = poly2mask(rl_x, rl_y, m, n);
     ln_mask = poly2mask(ll_x, ll_y, m, n);
@@ -69,7 +71,15 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     if isempty(lines_left) == false
         xy1 = [lines_left(1).point1; lines_left(1).point2];
         if first_pass == false
-            xy1 = [(lines_left(1).point1 + old_left(1).point1)/2; (lines_left(1).point2 + old_left(1).point2)/2];
+            if isempty(old_left) == false
+%             xy1 = [(lines_left(1).point1 + (3*old_left(1).point1))/4; (lines_left(1).point2 + (3*old_left(1).point2))/4];
+              % if non zero average
+              if (any(lines_left(1).point1) == 1 && any(lines_left(1).point2) == 1 && any(old_left(1).point1) && any(old_left(1).point2) == 1)
+                  a = (1/100);
+                  b = (99/100);
+                  xy1 = [a .* lines_left(1).point1 + b .* old_left(1).point1; a .* lines_left(1).point2 + b .* old_left(1).point2];
+              end
+            end
         end
         plot(xy1(:,1), xy1(:,2), 'LineWidth', 2, 'Color', 'green');
         plot(xy1(1,1), xy1(1,2), 'x', 'LineWidth', 2, 'Color', 'red');
@@ -82,7 +92,13 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     if isempty(lines_right) == false
         xy2 = [lines_right(1).point1; lines_right(1).point2];
         if first_pass == false
-            xy2 = [(lines_right(1).point1 + old_right(1).point1)/2; (lines_right(1).point2 + old_right(1).point2)/2];
+%             xy2 = [(lines_right(1).point1 + (3*old_right(1).point1))/4; (lines_right(1).point2 + (3*old_right(1).point2))/4];
+            % average if non zero
+            if (any(lines_right(1).point1) == 1 && any(lines_right(1).point2) == 1 && any(old_right(1).point1) && any(old_right(1).point2) == 1)
+                a = (1/100);
+                b = (99/100);
+                xy2 = [a .* lines_right(1).point1 + b .* old_right(1).point1; a .* lines_right(1).point2 + b .* old_right(1).point2];
+            end
         end
         plot(xy2(:,1), xy2(:,2), 'LineWidth', 2, 'Color', 'red');
         plot(xy2(1,1), xy2(1,2), 'x', 'LineWidth', 2, 'Color', 'green');
