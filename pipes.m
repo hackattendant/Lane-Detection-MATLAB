@@ -1,5 +1,10 @@
 function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_pass)
     close all;
+    
+    
+    %initialize distfrom cent 0
+    dist_from_center = 0;
+    
     %% Convert from RGB to HSV
 %     hsv = rgb2hsv(frame);
 %     v_channel = hsv(:, :, 3);
@@ -62,6 +67,7 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
 %         hold off;
 %     end
 %% Extracct lines from Hough Peaks
+    xy1 = []; xy2 = [];
     lines_left = houghlines(masked_left, theta_l, rho_l, P_l, 'FillGap', 3000, 'MinLength', 250);
     if isempty(lines_left) == true
         % if none found use old line
@@ -72,11 +78,12 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
         xy1 = [lines_left(1).point1; lines_left(1).point2];
         if first_pass == false && isempty(old_left) == false
             if isempty(old_left) == false
-%             xy1 = [(lines_left(1).point1 + (3*old_left(1).point1))/4; (lines_left(1).point2 + (3*old_left(1).point2))/4];
-              % if non zero average
-              a = (1/100);
-              b = (99/100);
-              xy1 = [a .* lines_left(1).point1 + b .* old_left(1).point1; a .* lines_left(1).point2 + b .* old_left(1).point2];
+                if (any(lines_left(1).point1) == 1 && any(lines_left(1).point2) == 1 && any(old_left(1).point1) && any(old_left(1).point2) == 1)
+                    % if non zero average
+                    a = (1/15);
+                    b = (14/15);
+                    xy1 = [a .* lines_left(1).point1 + b .* old_left(1).point1; a .* lines_left(1).point2 + b .* old_left(1).point2];
+                end
             end
         end
         plot(xy1(:,1), xy1(:,2), 'LineWidth', 2, 'Color', 'green');
@@ -90,11 +97,13 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     if isempty(lines_right) == false
         xy2 = [lines_right(1).point1; lines_right(1).point2];
         if first_pass == false && isempty(old_right) == false
+            if (any(lines_right(1).point1) == 1 && any(lines_right(1).point2) == 1 && any(old_right(1).point1) && any(old_right(1).point2) == 1)
 %             xy2 = [(lines_right(1).point1 + (3*old_right(1).point1))/4; (lines_right(1).point2 + (3*old_right(1).point2))/4];
             % average if non zero
-            a = (1/100);
-            b = (99/100);
-            xy2 = [a .* lines_right(1).point1 + b .* old_right(1).point1; a .* lines_right(1).point2 + b .* old_right(1).point2];
+                a = (1/15);
+                b = (14/15);
+                xy2 = [a .* lines_right(1).point1 + b .* old_right(1).point1; a .* lines_right(1).point2 + b .* old_right(1).point2];
+            end
         end
         plot(xy2(:,1), xy2(:,2), 'LineWidth', 2, 'Color', 'red');
         plot(xy2(1,1), xy2(1,2), 'x', 'LineWidth', 2, 'Color', 'green');
@@ -105,10 +114,44 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
         x = []; x = [x; xy1(:,1)]; x = [x; xy2(:,1)];
         y = []; y = [y; xy1(:,2)]; y = [y; xy2(:,2)];
         patch(x, y, 'g', 'FaceAlpha', .3);
+        
+        
+        % calculate pixels from center
+        mid = 640;
+        pix_from_center = (lines_left(1).point1(1) + lines_right(1).point2(1))/2 - mid;
+        dist_from_center = pix_from_center*3.7/700;
+        
     end
     hold off;
+    
+
+    % set xy1 and xy2 as old points
+    if isempty(xy1) == false
+        lines_left(1).point1 = xy1(1,:);
+        lines_left(1).point2 = xy1(2,:);
+    end
+    if isempty(xy2) == false
+        lines_right(1).point1 = xy2(1,:);
+        lines_right(1).point2 = xy2(2,:);
+    end
+
+    
     %% Convert and return
     F = getframe(gcf);
     [X, ~] = frame2im(F);
+    
+    
+    % add label
+    correction = ' Centered';
+    if dist_from_center > 0.3
+        correction = ' Drifting Left';
+    end
+    if dist_from_center < -0.3
+        correction = ' Drifting Right';
+    end
+    label_string = join(['Estimated Distance from Center of Lane: ', num2str(dist_from_center), ' Meters']);
+    X = insertText(X, [100 50], label_string, 'AnchorPoint', 'LeftBottom');
+%     X = insertText(X, [100 80], (join(['Status: ', correction])), 'AnchorPoint', 'LeftBottom');
+    
     
 end
