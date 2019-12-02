@@ -1,8 +1,8 @@
 % Generates marked up output video from driving input video.
 % read in video
-v = VideoReader('../Videos/driving_vid.mp4');
+v = VideoReader('../Video/short_test.mp4');
 % create output video and open it
-out = VideoWriter('../Videos/out_vid.mp4', 'MPEG-4');
+out = VideoWriter('../Videos/short_out_vid.mp4', 'MPEG-4');
 open(out);
 % set pipes first pass flag to true for first call
 first_pass = true;
