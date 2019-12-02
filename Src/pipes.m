@@ -68,7 +68,7 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
         lines_right = houghlines(masked_right, theta_r, rho_r, P_r, 'FillGap', 3000, 'MinLength', 250);
     end
     if q_r ~= 2
-        lines_right = old_right
+        lines_right = old_right;
     end
     if isempty(lines_right) == true
         lines_right = old_right;
