@@ -117,5 +117,5 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     
     %% Add estimated offset as an overlay
     label_string = join(['Estimated Distance from Center of Lane: ', num2str(dist_from_center), ' Meters']);
-    X = insertText(X, [100 50], label_string, 'AnchorPoint', 'LeftBottom');
+    X = insertText(X, [200 100], label_string, 'AnchorPoint', 'LeftBottom');
 end
