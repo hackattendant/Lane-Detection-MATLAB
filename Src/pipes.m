@@ -1,5 +1,5 @@
 % Finds lines and markups up video frames with information found.
-function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_pass)
+function [X, lines_left, lines_right] = pipes(frame, old_left, old_right)
     close all;
     % initialize tracking status to be off
     status = false;
@@ -50,7 +50,8 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     figure('Name','Hough Lines found in image', 'visible', 'off'), imshow(frame), hold on;
     if isempty(lines_left) == false
         xy1 = [lines_left(1).point1; lines_left(1).point2];
-        if first_pass == false && isempty(old_left) == false
+        % if first_pass == false && isempty(old_left) == false
+        if isempty(old_left) == false
             if isempty(old_left) == false
                 % if no zeros (we don't want to zero out an average)
                 if (any(lines_left(1).point1) == 1 && any(lines_left(1).point2) == 1 && any(old_left(1).point1) && any(old_left(1).point2) == 1)
@@ -78,7 +79,8 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     end
     if isempty(lines_right) == false
         xy2 = [lines_right(1).point1; lines_right(1).point2];
-        if first_pass == false && isempty(old_right) == false
+        % if first_pass == false && isempty(old_right) == false
+        if isempty(old_right) == false
             % if no zeros (we don't want to zero out an average)
             if (any(lines_right(1).point1) == 1 && any(lines_right(1).point2) == 1 && any(old_right(1).point1) && any(old_right(1).point2) == 1)
                 % average point values to add smoothing effect
@@ -123,14 +125,10 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     
     %% Add estimated offset as an overlay
     label_string = join(['Estimated Distance from Center of Lane: ', num2str(dist_from_center), ' Meters']);
-<<<<<<< HEAD
     X = insertText(X, [100 50], label_string, 'AnchorPoint', 'LeftBottom');
     if status == true
         X = insertText(X, [100 100], "Tracking Status:  On", 'AnchorPoint', 'LeftBottom', 'BoxColor', 'green', 'TextColor', 'white');
     else
         X = insertText(X, [100 100], "Tracking Status:  Off", 'AnchorPoint', 'LeftBottom', 'BoxColor', 'red', 'TextColor', 'white');
     end
-=======
-    X = insertText(X, [200 100], label_string, 'AnchorPoint', 'LeftBottom');
->>>>>>> bb44af775b464eef9f2b72a88afc44c257525acc
 end
