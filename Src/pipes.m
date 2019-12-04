@@ -1,6 +1,8 @@
 % Finds lines and markups up video frames with information found.
 function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_pass)
     close all;
+    % initialize tracking status to be off
+    status = false;
     %initialize distfrom cent 0
     dist_from_center = 0;
     % initialize xy1 and xy2 to be empty
@@ -43,6 +45,7 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     if isempty(lines_left) == true
         % if none found use old line
         lines_left = old_left;
+
     end
     figure('Name','Hough Lines found in image', 'visible', 'off'), imshow(frame), hold on;
     if isempty(lines_left) == false
@@ -98,6 +101,9 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
         mid = 640;
         pix_from_center = (lines_left(1).point1(1) + lines_right(1).point2(1))/2 - mid;
         dist_from_center = pix_from_center*3.7/700;
+
+        % we have a line found on each side so tracking status is good
+        status = true;
         
     end
     hold off;
@@ -118,4 +124,9 @@ function [X, lines_left, lines_right] = pipes(frame, old_left, old_right, first_
     %% Add estimated offset as an overlay
     label_string = join(['Estimated Distance from Center of Lane: ', num2str(dist_from_center), ' Meters']);
     X = insertText(X, [100 50], label_string, 'AnchorPoint', 'LeftBottom');
+    if status == true
+        X = insertText(X, [100 100], "Tracking Status:  On", 'AnchorPoint', 'LeftBottom', 'BoxColor', 'green', 'TextColor', 'white');
+    else
+        X = insertText(X, [100 100], "Tracking Status:  Off", 'AnchorPoint', 'LeftBottom', 'BoxColor', 'red', 'TextColor', 'white');
+    end
 end
