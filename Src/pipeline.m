@@ -15,11 +15,12 @@ function [X, lines_left, lines_right] = pipeline(frame, old_left, old_right)
     y_points = [444, 444, 720, 720];
     rl_x = [710, 680, 680, 1200];
     rl_y = [200, 200, 650, 650];
+    ll_x = [700, 680, 500, 200];
     ll_y = [650, 300, 300, 650];
     mask = poly2mask(x_points, y_points, m, n);
     rl_mask = poly2mask(rl_x, rl_y, m, n);
     ln_mask = poly2mask(ll_x, ll_y, m, n);
-    masked = and(a, mask);
+    masked = and(threshed_img, mask);
     masked_left = and(masked, ln_mask);
     masked_right = and(masked, rl_mask);
     %% Hough Points
