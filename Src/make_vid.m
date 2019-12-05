@@ -26,4 +26,5 @@ end
 close(out);
 % calculate and display time
 e = cputime - t;
+disp("Time taken:");
 disp(e);
