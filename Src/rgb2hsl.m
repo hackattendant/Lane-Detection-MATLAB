@@ -16,8 +16,9 @@
     % - Wikipedia: http://en.wikipedia.org/wiki/HSL_and_HSV
 
 function hsl=rgb2hsl(rgb_in)
-    % convert image to range [0 1]
-    rgb_in = double(rgb_in)/ 255;
+    % Convert image to range [0 1]
+    % Added by me to make my input source correct
+    rgb_in = double(rgb_in)/ 255;  
 
     rgb=reshape(rgb_in, [], 3);
 
