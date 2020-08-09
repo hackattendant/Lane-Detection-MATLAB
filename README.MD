@@ -1,4 +1,4 @@
-# Lane Detection for self-driving cars / lane-assist written in MATLAB
+# Lane Detection for self-driving cars written in MATLAB
 This is a lane detection pipeline written in matlab.  It takes input from a camera (a video) and finds the driving lane and estimates the offset from center.  It is demonstrated by marking up the videos for human eyes to see ;).
 
 ## How to Run:
