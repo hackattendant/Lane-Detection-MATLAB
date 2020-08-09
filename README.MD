@@ -1,5 +1,5 @@
-# Simple Lane Detection in MATLAB
-This is a simple lane detection pipeline written in MATLAB using Hough transform.  There are functions to demonstrate it working by marking up the frames of the input video from the camera mounted in the car.
+# Lane Detection in MATLAB from camera
+This is a lane detection pipeline written in matlab.  It takes input from a camera (a video) and finds the driving lane and estimates the offset from center.  It is demonstrated by marking up the videos for human eyes to see ;).
 
 ## How to Run:
 * To generate a video use the make_vid.m function
