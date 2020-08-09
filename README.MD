@@ -8,14 +8,37 @@ This is a simple lane detection pipeline written in MATLAB using Hough transform
 	* The estimated offset from lane center (using pixel to physical distance scale provided for camera and mount inside car) is displayed in the left corner of the frame.
 * To test you can use the script Demonstrate.m and it will run the algorithm on the short testclip from the videos directory
 
+## Example Output
+![Example](Videos/Example.png)
+
+## How does this work?
+* This pipeline is run on video inputs.  The dataset I used can be found here: https://github.com/udacity/self-driving-car/tree/master/datasets
+* Steps of the pipeline
+	* Step 1: Convert image from RGB space to HSL space
+		*	RGB Space
+		*	![rgb](Images/rgb.png)
+		*	HSL Space
+		*	![hsl](Images/hsl.png)
+	* Step 2: Extract the l channel (lightness) from the HSL space
+		*	L Channel
+		*	![l](Images/l.png)
+	* Step 3: Perform Sobel–Feldman operator on l channel
+		*	Sobel
+		*	![sobel](Images/sobel.png)
+	* Step 4: Threshold (binarize) the image
+		* 	Thresholded
+		*	![threshed](Images/threshed.png)
+	* Step 5: Mask the Image
+		*	Masked Image
+		*	![mask1](Images/mask1.png)
+		*	![mask2](Images/mask2.png)
+	* Step 6:  Perform Hough Transform on Image
+		*	Hough Transform and peaks for left lane and right lane.  When we convert the peaks back into Euclidean space it will be a pair of coordinates representing the lane lines
+		*	![hough](Images/Hough-figures.png)
+		
+The results of the steps above is visualized by marking up the found lane region in an image or video (pictured above under Example Output) and also using the pixel difference to convert into physical distance and estiamte an offset of center from the lane.
+
 ## Hough Peaks from Hough Transform (Converting the peaks to Euclidean space gives us the lane lines)
 ![Hough](Hough_Figures/leftlineHough.png)
 ![Hough](Hough_Figures/rightlineHough.png)
-
-## Example Output
-
-![Example](Videos/Example.png)
-
-
-
 
