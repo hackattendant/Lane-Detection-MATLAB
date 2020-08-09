@@ -9,7 +9,7 @@ This is a simple lane detection pipeline written in MATLAB using Hough transform
 * To test you can use the script Demonstrate.m and it will run the algorithm on the short testclip from the videos directory
 
 ## Example Output
-![Example](Videos/Example.png)
+![Example](Images/Example.png)
 
 ## How does this work?
 * This pipeline is run on video inputs.  The dataset I used can be found here: https://github.com/udacity/self-driving-car/tree/master/datasets
