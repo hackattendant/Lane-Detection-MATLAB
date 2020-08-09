@@ -37,8 +37,3 @@ This is a lane detection pipeline written in matlab.  It takes input from a came
 		*	![hough](Images/Hough-figures.png)
 		
 The results of the steps above is visualized by marking up the found lane region in an image or video (pictured above under Example Output) and also using the pixel difference to convert into physical distance and estiamte an offset of center from the lane.
-
-## Hough Peaks from Hough Transform (Converting the peaks to Euclidean space gives us the lane lines)
-![Hough](Hough_Figures/leftlineHough.png)
-![Hough](Hough_Figures/rightlineHough.png)
-
