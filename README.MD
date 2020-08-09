@@ -1,5 +1,8 @@
 # Lane Detection in MATLAB
-by Ethan Peacock
+This is a simple lane detection pipeline written in MATLAB.  There are functions to demonstrate it working by marking up the frames of the input video from the camera mounted in the car.
+
+## Example Output
+
 
 ## How to Run:
 * To generate a video use the make_vid.m function
